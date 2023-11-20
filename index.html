@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCar Plus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-primary-subtle" onload="mostrarClientes(); mostrarMecanicos(); mostrarClientesSelect(); mostrarVehiculos(); mostrarVehiculosSelect(); mostrarMecanicosSelect(); mostrarRegistros()">
+    <nav class="navbar navbar-expand-lg fixed-top bg-success">
+        <div class="container-fluid">
+          <a class="navbar-brand text-light fw-bolder me-5" href="index.html"><i class="bi bi-car-front me-2"></i>iCar Plus</a>
+          <div class="collapse navbar-collapse ms-5" id="navbarNav">
+            <ul class="navbar-nav ms-5">
+              <li class="nav-item">
+                <a class="nav-link text-light" href="#personas">Personas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="#vehiculos">Vehículos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="#registros">Registros</a>
+              </li>
+            </ul>
+          </div>
+        <button type="button" class="btn btn-danger right">Cerrar Sesión</button>
+    </nav>
+    <div class="container mt-5">
+      <div class="row">
+          <h1 class="text-center col col-12 col-sm-12 my-5" id="personas">Registro de personas</h1>
+          <form action="" class="col col-12 col-sm-12 p-5 border border-5 border-primary rounded-5 bg-warning">
+              <div class="mb-3">
+                  <div class="text-center">
+                      <label for="cedula" class="form-label fw-bolder">Cédula</label>
+                  </div>
+                  <input type="number" class="form-control" id="cedula">
+              </div>
+              <div class="mb-3">
+                  <div class="text-center">
+                      <label for="nombre" class="form-label fw-bolder">Nombre</label>
+                  </div>
+                  <input type="text" class="form-control" id="nombre">
+              </div>
+              <div class="mb-3">
+                  <div class="text-center">
+                      <label for="correo" class="form-label fw-bolder">Correo Electrónico</label>
+                  </div>
+                  <input type="email" class="form-control" id="correo">
+              </div>
+              <button type="button" class="btn btn-success col col-5 col-sm-5 offset-1 offset-sm-1 mt-3" onclick="registrarPersona('C')">Registrar Cliente</button>
+              <button type="button" class="btn btn-success col col-5 col-sm-5 mt-3" onclick="registrarPersona('M')">Registrar Mecánico</button>
+          </form>
+      </div>
+      <div class="row">
+        <div class="text-center">
+            <h1 class="col col-12 col-sm-12 my-5">Clientes</h1>
+        </div>
+        <table class="table col col-12 col-sm-12 table-striped" data-bs-theme="dark">
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Cédula</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Correo</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="bodyClientes">
+              
+            </tbody>
+        </table>
+        <button type="button" class="col col-12 col-sm-12 btn btn-secondary" onclick="reporteClientes()">Reporte de Clientes</button>
+        <div class="text-center">
+            <h1 class="col col-12 col-sm-12 my-5">Mecánicos</h1>
+        </div>
+        <table class="table col col-12 col-sm-12 table-striped" data-bs-theme="dark">
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Cédula</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Correo</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="bodyMecanicos">
+              
+            </tbody>
+        </table>
+        <button type="button" class="col col-12 col-sm-12 btn btn-secondary" onclick="reporteMecanicos()">Reporte de Mecánicos</button>
+      </div>
+      <hr class="mt-5 border border-1 border-success opacity-75">
+      <div class="row">
+        <h1 class="text-center col col-12 col-sm-12 my-5" id="vehiculos">Registro de vehículos</h1>
+        <form action="" class="col col-12 col-sm-12 p-5 border border-5 border-danger rounded-5 bg-warning" id="formVehiculos" enctype="multipart/form-data">
+          <div class="mb-3">
+              <div class="text-center">
+                  <label for="matricula" class="form-label fw-bolder">Matrícula</label>
+              </div>
+              <input type="text" class="form-control" id="matricula" name="matricula">
+          </div>
+          <div class="mb-3">
+              <div class="text-center">
+                  <label for="descripcion" class="form-label fw-bolder">Descripción</label>
+              </div>
+              <input type="text" class="form-control" id="descripcion" name="descripcion">
+          </div>
+          <div class="mb-3">
+              <div class="text-center">
+                <label for="imagen" class="form-label fw-bolder">Imagen</label>
+              </div>
+              <input class="form-control" type="file" id="imagen" name="imagen">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="marca" class="form-label fw-bolder">Marca</label>
+            </div>
+            <input type="text" class="form-control" id="marca" name="marca">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="modelo" class="form-label fw-bolder">Modelo</label>
+            </div>
+            <input type="text" class="form-control" id="modelo" name="modelo">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="tipo" class="form-label fw-bolder">Tipo</label>
+            </div>
+            <input type="text" class="form-control" id="tipo" name="tipo">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="year" class="form-label fw-bolder">Año</label>
+            </div>
+            <input type="text" class="form-control" id="year" name="year">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="clasificacion" class="form-label fw-bolder">Clasificación</label>
+            </div>
+            <select class="form-select" id="clasificacion" name="clasificacion">
+              <option value="Abierto">Abierto</option>
+              <option value="Cerrado">Cerrado</option>
+              <option value="Descubrible">Descubrible</option>
+              <option value="Deportivo">Deportivo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="cedulaCliente" class="form-label fw-bolder">Cliente</label>
+            </div>
+            <select class="form-select" id="cedulaCliente" name="cedulaCliente">
+
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success col col-6 col-sm-6 offset-3 offset-sm-3 mt-3">Registrar Vehículo</button>
+        </form>
+      </div>
+      <div class="row">
+        <div class="text-center">
+          <h1 class="col col-12 col-sm-12 my-5">Vehículos</h1>
+        </div>
+        <table class="table col col-12 col-sm-12 table-striped" data-bs-theme="dark">
+          <thead>
+            <tr>
+              <th class="text-center">Matrícula</th>
+              <th class="text-center">Descripción</th>
+              <th class="text-center">Imagen</th>
+              <th class="text-center">Marca</th>
+              <th class="text-center">Modelo</th>
+              <th class="text-center">Tipo</th>
+              <th class="text-center">Año</th>
+              <th class="text-center">Clasificación</th>
+              <th class="text-center">Cliente</th>
+            </tr>
+          </thead>
+          <tbody id="bodyVehiculos">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="text-center">
+          <h1 class="col col-12 col-sm-12 my-5" id="registros">Añadir registros</h1>
+        </div>
+        <form action="" class="col col-12 col-sm-12 p-5 border border-5 border-info rounded-5 bg-warning" id="formRegistros">
+          <div class="mb-3">
+            <div class="text-center">
+              <label for="vehiculo" class="form-label fw-bolder">Vehículo</label>
+            </div>
+            <select class="form-select" id="vehiculo" name="vehiculo">
+              
+            </select>
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="repuestos" class="form-label fw-bolder">Repuestos</label>
+            </div>
+            <input type="text" class="form-control" id="repuestos" name="repuestos">
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+              <label for="estado" class="form-label fw-bolder">Estado del repuesto</label>
+            </div>
+            <select class="form-select" id="estado" name="estado">
+              <option value="Asignado">Asignado</option>
+              <option value="Cambiado">Cambiado</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <div class="text-center">
+                <label for="mecanico" class="form-label fw-bolder">Mecánico</label>
+            </div>
+            <select class="form-select" id="mecanico" name="mecanico">
+              
+            </select>
+          </div>
+          <button type="button" class="btn btn-success col col-6 col-sm-6 offset-3 offset-sm-3 mt-3" onclick="registros()">Añadir Registro</button>
+        </form>
+      </div>
+      <div class="row">
+        <div class="text-center">
+          <h1 class="col col-12 col-sm-12 my-5">Registros</h1>
+        </div>
+        <table class="table col col-12 col-sm-12 table-striped" data-bs-theme="dark">
+          <thead>
+            <tr>
+              <th class="text-center">ID</th>
+              <th class="text-center">Vehículo</th>
+              <th class="text-center">Repuesto</th>
+              <th class="text-center">Estado</th>
+              <th class="text-center">Mecánico</th>
+              <th class="text-center">Código</th>
+            </tr>
+          </thead>
+          <tbody id="bodyRegistros">
+            
+          </tbody>
+        </table>
+        <button type="button" class="col col-12 col-sm-12 btn btn-secondary" onclick="reporteRegistros()">Reporte de Registros</button>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
