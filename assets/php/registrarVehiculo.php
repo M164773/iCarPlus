@@ -1,6 +1,10 @@
 <?php
     include_once('conexion.php');
 
+    if(!file_exists("img")){
+        mkdir("img");
+    }
+
     if(empty($_POST['matricula']) || empty($_POST['descripcion']) || empty($_POST['marca']) || empty($_POST['modelo']) || empty($_POST['tipo']) || empty($_POST['year']) || empty($_POST['clasificacion']) || empty($_POST['cedulaCliente'])){
         echo 'Asegúrese de que todos los campos hayan sido llenados.';
     } else{
