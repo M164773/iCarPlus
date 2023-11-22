@@ -1,3 +1,25 @@
+function abrir(){
+    let usuario = document.getElementById("usuario").value
+    let clave = document.getElementById("clave").value
+
+    if(usuario === "admin" && clave === "admin"){
+        localStorage.setItem("usuario", "admin")
+        localStorage.setItem("clave", "admin")
+        location.replace("index.html")
+    } else{
+        let error = document.getElementById("errorMensaje")
+        error.innerHTML = "Usuario o contraseña incorrecta. Intente de nuevo."
+    }
+}
+
+function cerrar(){
+    if(localStorage.getItem("usuario") && localStorage.getItem("clave")){
+        location.replace('login.html')
+        localStorage.removeItem("usuario")
+        localStorage.removeItem("clave")
+    }
+}
+
 function registrarPersona(tipo){
     let cedula = document.getElementById("cedula").value
     let nombre = document.getElementById("nombre").value
@@ -86,7 +108,7 @@ function mostrarClientes(){
                             <td class="text-center">${cliente.cedula}</td>
                             <td class="text-center">${cliente.nombre}</td>
                             <td class="text-center">${cliente.correo}</td>
-                            <td class="text-center"><button type="button" class="btn btn-primary me-3" onclick="modificarPersona(${cliente.id})"><i class="bi bi-pencil-fill"></i></button><button type="button" class="btn btn-danger" onclick="borrarPersona(${cliente.id})"><i class="bi bi-trash-fill"></i></button></td>
+                            <td class="text-center"><button type="button" class="btn btn-danger" onclick="borrarPersona(${cliente.cedula})"><i class="bi bi-trash-fill"></i></button></td>
                         </tr>
                     `
                     $("#bodyClientes").html(template)
@@ -131,7 +153,7 @@ function mostrarMecanicos(){
                         <td class="text-center">${mecanico.cedula}</td>
                         <td class="text-center">${mecanico.nombre}</td>
                         <td class="text-center">${mecanico.correo}</td>
-                        <td class="text-center"><button type="button" class="btn btn-primary me-3" onclick="modificarPersona(${mecanico.id})"><i class="bi bi-pencil-fill"></i></button><button type="button" class="btn btn-danger" onclick="borrarPersona(${mecanico.id})"><i class="bi bi-trash-fill"></i></button></td>
+                        <td class="text-center"><button type="button" class="btn btn-danger" onclick="borrarPersona(${mecanico.cedula})"><i class="bi bi-trash-fill"></i></button></td>
                     </tr>
                 `
                 $("#bodyMecanicos").html(template)
@@ -177,7 +199,7 @@ function mostrarVehiculos(){
             } else{
                 vehiculos.forEach(vehiculo => {
                     template+=`
-                        <tr>
+                        <tr id=${vehiculo.matricula}>
                             <td class="text-center">${vehiculo.matricula}</td>
                             <td class="text-center">${vehiculo.descripcion}</td>
                             <td class="text-center"><img src="${vehiculo.imagen}" width=80px height=auto></td>
@@ -238,12 +260,25 @@ function mostrarRegistros(){
                         <td class="text-center">${registro.repuesto}</td>
                         <td class="text-center">${registro.estado}</td>
                         <td class="text-center">${registro.mecanico}</td>
-                        <td class="text-center">a</td>
                     </tr>
                     `
                     $("#bodyRegistros").html(template)
                 })
             }
+        }
+    })
+}
+
+function borrarPersona(c){
+    $.ajax({
+        url: 'assets/php/borrarPersona.php',
+        type: 'POST',
+        data: {c},
+        success: function(){
+            mostrarClientes()
+            mostrarClientesSelect()
+            mostrarMecanicos()
+            mostrarMecanicosSelect()
         }
     })
 }
@@ -264,6 +299,16 @@ function reporteMecanicos(){
         type: 'GET',
         success: function(){
             window.open('assets/php/reporteMecanicos.php')
+        }
+    })
+}
+
+function reporteVehiculos(){
+    $.ajax({
+        url:'assets/php/reporteVehiculos.php',
+        type: 'GET',
+        success: function(){
+            window.open('assets/php/reporteVehiculos.php')
         }
     })
 }
